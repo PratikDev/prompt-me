@@ -1,8 +1,6 @@
 import { FC } from "react";
 
-const GithubIcon: FC<{ className?: string }> = ({
-  className: customClasses,
-}) => {
+const SunIcon: FC<{ className?: string }> = ({ className: customClasses }) => {
   return (
     <>
       <svg
@@ -16,4 +14,4 @@ const GithubIcon: FC<{ className?: string }> = ({
   );
 };
 
-export default GithubIcon;
+export default SunIcon;
