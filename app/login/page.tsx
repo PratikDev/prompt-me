@@ -62,7 +62,6 @@ const handleSubmit = async ({
             <b className="bg-gray-300 px-1 py-0.5 rounded-sm">
               {formData.email}
             </b>
-            . Please check your inbox.
           </p>
         </div>
       ),

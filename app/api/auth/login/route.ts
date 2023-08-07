@@ -1,11 +1,18 @@
 import { NextResponse } from "next/server";
 
+const EMAIL_CONFIRMATION_ENDPOINT =
+  "http://localhost:3000/api/auth/emailConfirmation";
+
 async function sendEmail(email: string) {
   try {
     const { account } = await import("@/appwrite/appwrite.config");
     const { ID } = await import("appwrite");
 
-    await account.createMagicURLSession(ID.unique(), email);
+    await account.createMagicURLSession(
+      ID.unique(),
+      email,
+      EMAIL_CONFIRMATION_ENDPOINT
+    );
 
     return NextResponse.json(
       { success: true, message: "success" },
