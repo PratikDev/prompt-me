@@ -34,8 +34,9 @@ const handleSubmit = async ({
   });
 
   const email = formRef.current?.email.value;
+  const formData = { email };
 
-  const result = schema.safeParse({ email });
+  const result = schema.safeParse(formData);
 
   if (!result.success) {
     const { toast } = await import("react-hot-toast");
@@ -43,24 +44,40 @@ const handleSubmit = async ({
     return;
   }
 
+  setPending(true);
+  const { toast } = await import("react-hot-toast");
   try {
-    setPending(true);
-
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify(formData),
     });
 
     const data = await res.json();
 
-    if (res.ok) {
-      const { toast } = await import("react-hot-toast");
-      toast.success(data.message);
+    if (!res.ok) {
+      toast.error(data.message);
       return;
     }
+
+    toast.success(
+      () => (
+        <div>
+          <p className="text-sm">
+            A login link has been sent to{" "}
+            <b className="bg-gray-300 px-1 py-0.5 rounded-sm">
+              {formData.email}
+            </b>
+            . Please check your inbox.
+          </p>
+        </div>
+      ),
+      {
+        duration: 5000,
+      }
+    );
   } catch (error) {
-    console.error(error);
+    toast.error("Something went wrong. Please try again later");
   } finally {
     setPending(false);
   }
@@ -93,7 +110,7 @@ const Login: FC = () => {
         </Button>
 
         <div className="w-full flex gap-2">
-          <Button className="w-full border" variant={"secondary"}>
+          <Button type="button" className="w-full border" variant={"secondary"}>
             <Image
               alt="Login with Google"
               src={`/icons/google-48.png`}
@@ -104,7 +121,7 @@ const Login: FC = () => {
             <span className="pl-1.5">Google</span>
           </Button>
 
-          <Button className="w-full border" variant={"secondary"}>
+          <Button type="button" className="w-full border" variant={"secondary"}>
             <Image
               alt="Login with Github"
               src={`/icons/github-64.png`}

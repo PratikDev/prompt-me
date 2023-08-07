@@ -1,6 +1,6 @@
+import { badgeVariants } from "@/components/ui/badge";
 import Image from "next/image";
 import Link from "next/link";
-import { badgeVariants } from "./ui/badge";
 
 export const Card = function ({
   prompt,
