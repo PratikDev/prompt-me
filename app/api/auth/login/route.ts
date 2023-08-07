@@ -12,6 +12,15 @@ async function sendEmail(email: string) {
       { status: 200 }
     );
   } catch (error) {
+    const { isAppwriteException } = await import(
+      "@/appwrite/appwrite.utils/isAppwriteException"
+    );
+
+    if (isAppwriteException(error)) {
+      const { code: status, message } = error;
+      return NextResponse.json({ success: false, message }, { status });
+    }
+
     return NextResponse.json(
       { success: false, message: "Something went wrong" },
       { status: 500 }
@@ -22,18 +31,12 @@ async function sendEmail(email: string) {
 export async function POST(request: Request) {
   const body = await request.json();
 
-  const { z } = await import("zod");
-  const schema = z.object({
-    email: z.string().email(),
-  });
-
-  const schemaParseResponse = schema.safeParse(body);
+  const { loginSchema } = await import("@/schema/schema");
+  const schemaParseResponse = loginSchema.safeParse(body);
 
   if (!schemaParseResponse.success) {
-    return NextResponse.json(
-      { success: false, message: "Invalid Request" },
-      { status: 400 }
-    );
+    const message = schemaParseResponse.error.issues[0].message;
+    return NextResponse.json({ success: false, message }, { status: 400 });
   }
 
   const { email } = schemaParseResponse.data;

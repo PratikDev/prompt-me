@@ -27,25 +27,19 @@ const handleSubmit = async ({
 }) => {
   e.preventDefault();
 
-  const { z } = await import("zod");
-
-  const schema = z.object({
-    email: z.string().email(),
-  });
-
   const email = formRef.current?.email.value;
   const formData = { email };
 
-  const result = schema.safeParse(formData);
+  const { loginSchema } = await import("@/schema/schema");
+  const result = loginSchema.safeParse(formData);
 
+  const { toast } = await import("react-hot-toast");
   if (!result.success) {
-    const { toast } = await import("react-hot-toast");
     toast.error(result.error.issues[0].message);
     return;
   }
 
   setPending(true);
-  const { toast } = await import("react-hot-toast");
   try {
     const res = await fetch("/api/auth/login", {
       method: "POST",
