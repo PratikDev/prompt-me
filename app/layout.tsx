@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "PromptMe",
@@ -22,6 +23,8 @@ export default function RootLayout({
           <main className="relative mx-6 md:mx-16 my-8 xs:my-12">
             {children}
           </main>
+
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
