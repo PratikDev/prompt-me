@@ -19,11 +19,9 @@ async function sendEmail(email: string) {
       { status: 200 }
     );
   } catch (error) {
-    const { isAppwriteException } = await import(
-      "@/appwrite/appwrite.utils/isAppwriteException"
-    );
+    const { AppwriteException } = await import("appwrite");
 
-    if (isAppwriteException(error)) {
+    if (error instanceof AppwriteException) {
       const { code: status, message } = error;
       return NextResponse.json({ success: false, message }, { status });
     }

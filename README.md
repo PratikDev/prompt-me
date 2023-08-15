@@ -27,4 +27,4 @@ A place to explore and share AI enhanced prompts. Search the best prompt of your
 
 #### Appwrite is showing TS error in `apppwrite/apppwrite.config.ts`
 
-it's a [bug](https://github.com/appwrite/sdk-for-web/issues/54) in `Appwrite-v11.0.0`. Check [this answer](https://github.com/appwrite/sdk-for-web/issues/54#issuecomment-1537470706) to solve the error
+it's a [bug](https://github.com/appwrite/sdk-for-web/issues/54) in `Appwrite-v11.0.0`. Follow [this answer](https://github.com/appwrite/sdk-for-web/issues/54#issuecomment-1537470706) to solve the error, until they add it in the new update
