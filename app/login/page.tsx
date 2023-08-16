@@ -20,13 +20,17 @@ import {
 const handleSubmit = async ({
   e,
   formRef,
+  pending,
   setPending,
 }: {
   e: FormEvent<HTMLFormElement>;
   formRef: RefObject<HTMLFormElement>;
+  pending: boolean;
   setPending: Dispatch<SetStateAction<boolean>>;
 }) => {
   e.preventDefault();
+
+  if (pending) return;
 
   const email = formRef.current?.email.value;
   const formData = { email };
@@ -86,7 +90,7 @@ const Login: FC = () => {
 
       <form
         ref={formRef}
-        onSubmit={(e) => handleSubmit({ e, formRef, setPending })}
+        onSubmit={(e) => handleSubmit({ e, formRef, pending, setPending })}
         className="max-w-sm flex flex-col gap-3 mx-auto pt-40"
       >
         <div className="grid w-full max-w-sm items-center gap-1.5">

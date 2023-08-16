@@ -3,16 +3,13 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import PlusIcon from "@/icons/PlusIcon";
 import { FC } from "react";
+import CreatePostForm from "./CreatePostForm";
 import ProfileHandle from "./ProfileHandle";
 
 const LoggedInUI: FC = () => {
@@ -36,27 +33,7 @@ const LoggedInUI: FC = () => {
             </DialogDescription>
           </DialogHeader>
 
-          <form className="grid gap-4 pt-2">
-            <div className="grid w-full gap-1.5">
-              <Label htmlFor="prompt">Your message</Label>
-              <Textarea placeholder="Type your prompt here" id="prompt" />
-            </div>
-
-            <div className="grid w-full gap-1.5">
-              <Label htmlFor="tags">Tags</Label>
-
-              <Input
-                required
-                id="tags"
-                placeholder="life, history, career"
-                className="col-span-3"
-              />
-            </div>
-
-            <DialogFooter>
-              <Button type="submit">Post</Button>
-            </DialogFooter>
-          </form>
+          <CreatePostForm />
         </DialogContent>
       </Dialog>
     </>
