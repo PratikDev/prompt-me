@@ -1,20 +1,30 @@
 import { FC } from "react";
 
+async function getUser() {
+  try {
+    const { getCurrentUser } = await import("@/AppwriteServices/server");
+    const currentUser = await getCurrentUser();
+    if (currentUser) return currentUser;
+  } catch (error) {}
+
+  return false;
+}
+
 const SessionHandle: FC = async () => {
-  const { default: NotLoggedInUI } = await import("./NotLoggedInUI");
-  let HandleUI = <NotLoggedInUI />;
+  let HandleUI = <></>;
 
   try {
-    const { getCurrentUser } = await import("@/appwrite/appwrite.config");
-    const currentUser = await getCurrentUser();
+    const currentUser = await getUser();
+    // const currentUser = true;
 
     if (currentUser) {
       const { default: LoggedInUI } = await import("./LoggedInUI");
       HandleUI = <LoggedInUI />;
+    } else {
+      const { default: NotLoggedInUI } = await import("./NotLoggedInUI");
+      HandleUI = <NotLoggedInUI />;
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 
   return HandleUI;
 };

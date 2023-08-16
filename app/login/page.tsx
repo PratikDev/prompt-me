@@ -54,21 +54,18 @@ const handleSubmit = async ({
       return;
     }
 
-    toast.success(
-      () => (
-        <div>
-          <p className="text-sm">
-            A login link has been sent to{" "}
-            <b className="bg-gray-300 px-1 py-0.5 rounded-sm">
-              {formData.email}
-            </b>
-          </p>
-        </div>
-      ),
-      {
-        duration: 5000,
-      }
+    const successToastJSX = () => (
+      <div>
+        <p className="text-sm">
+          A login link has been sent to{" "}
+          <b className="bg-gray-300 px-1 py-0.5 rounded-sm">{formData.email}</b>
+        </p>
+      </div>
     );
+
+    toast.success(successToastJSX, {
+      duration: 5000,
+    });
   } catch (error) {
     toast.error("Something went wrong. Please try again later");
   } finally {

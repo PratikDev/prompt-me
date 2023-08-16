@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 import * as setCookie from "set-cookie-parser";
 
 const REDIRECT_TO = {
-  FAILED: "http://localhost:3000/login",
-  SUCCESS: "http://localhost:3000",
+  FAILED: `${process.env.SSR_URL}/login`,
+  SUCCESS: process.env.SSR_URL,
 };
 
 async function validateLink({
@@ -19,7 +19,7 @@ async function validateLink({
       updateMagicURLSession,
       SSRhostName: SHN,
       AppwriteHostname: AHN,
-    } = await import("@/appwrite/appwrite.config");
+    } = await import("@/AppwriteServices");
 
     const response = await updateMagicURLSession({ userId, secret });
 

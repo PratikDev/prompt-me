@@ -1,3 +1,4 @@
+import { loginProviders } from "@/icons/className-data";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { FC } from "react";
@@ -20,7 +21,7 @@ const EmailIcon: FC<{ className?: string }> = ({
     p-1`}
     >
       <svg
-        className={cn(customClasses, ``)}
+        className={cn(customClasses, loginProviders)}
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="currentColor"

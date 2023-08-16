@@ -1,5 +1,5 @@
 import SessionHandle from "@/components/Navbar/SessionHandle";
-import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import ThemeToggle from "@/components/theme/ThemeToggle";
 import Logo from "@/icons/Logo";
 import Link from "next/link";
 import { FC } from "react";

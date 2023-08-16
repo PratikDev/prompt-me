@@ -4,12 +4,7 @@ import GoogleIcon from "@/icons/login-providers/GoogleIcon";
 import { FC, Fragment } from "react";
 
 const NotLoggedInUI: FC = () => {
-  const iconClasses = "md:w-6 md:h-6 w-5 h-5";
-  const loginOptions = [
-    <GoogleIcon className={iconClasses} />,
-    <GithubIcon className={iconClasses} />,
-    <EmailIcon className={iconClasses} />,
-  ];
+  const loginOptions = [<GoogleIcon />, <GithubIcon />, <EmailIcon />];
 
   return (
     <div

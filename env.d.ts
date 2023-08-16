@@ -5,6 +5,7 @@ declare global {
       APPWRITE_PROJECT_ID: string;
       APPWRITE_HOSTNAME: string;
       SSR_HOSTNAME: string;
+      SSR_URL: string;
     }
   }
 }

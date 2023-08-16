@@ -5,7 +5,7 @@ const EMAIL_CONFIRMATION_ENDPOINT =
 
 async function sendEmail(email: string) {
   try {
-    const { account } = await import("@/appwrite/appwrite.config");
+    const { account } = await import("@/AppwriteServices");
     const { ID } = await import("appwrite");
 
     await account.createMagicURLSession(
