@@ -9,8 +9,31 @@ export async function DELETE(request: Request) {
   };
 
   try {
-    const { account } = await import("@/AppwriteServices");
+    const { account, AppwriteProject } = await import("@/AppwriteServices");
     await account.deleteSession("current");
+
+    /* delete the server cookie, once logging out is completed by appwrite */
+    const { cookies } = await import("next/headers");
+
+    const sessionNames = [
+      `a_session_${AppwriteProject.toLowerCase()}`,
+      `a_session_${AppwriteProject.toLowerCase()}_legacy`,
+    ];
+
+    const cookieStore = cookies();
+    const hash = [
+      cookieStore.get(sessionNames[0]),
+      cookieStore.get(sessionNames[1]),
+    ];
+
+    // delete the cookies
+    hash.forEach((cookie) => {
+      /*
+        check the cookie existence.
+        it might be like your friends. (doesn't exist)
+      */
+      if (cookie) cookieStore.delete(cookie.name);
+    });
 
     status = 200;
     response.success = true;

@@ -19,8 +19,8 @@ export default function ThemeToggle() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="secondary" className="p-2 md:p-1.5">
-          <Sun className="w-5 xs:w-6 h-5 xs:h-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="w-5 xs:w-6 h-5 xs:h-6 absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <Sun className="rotate-0 scale-100 dark:-rotate-90 dark:scale-0" />
+          <Moon className="rotate-90 scale-0 dark:rotate-0 dark:scale-100 absolute" />
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>

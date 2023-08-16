@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import LoadingIcon from "@/icons/helpers/LoadingIcon";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Dispatch,
   FC,
@@ -58,7 +59,9 @@ const handleSubmit = async ({
       <div>
         <p className="text-sm">
           A login link has been sent to{" "}
-          <b className="bg-gray-300 px-1 py-0.5 rounded-sm">{formData.email}</b>
+          <Link href={`https://gmail.com`} className="text-blue-700 underline">
+            {formData.email}
+          </Link>
         </p>
       </div>
     );
