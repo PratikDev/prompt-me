@@ -1,11 +1,10 @@
-import { AppwriteException } from "appwrite";
 import { NextResponse } from "next/server";
 
 export async function DELETE(request: Request) {
   let status = 500;
   let response = {
     success: false,
-    message: "Internal Server Error",
+    message: "Something went wrong. Please reload the page and try again",
   };
 
   try {
@@ -42,14 +41,6 @@ export async function DELETE(request: Request) {
     return NextResponse.json(response, { status });
   } catch (error) {
     console.log(error);
-
-    if (error instanceof AppwriteException) {
-      status = error.code;
-      response.success = false;
-      response.message = error.message;
-
-      return NextResponse.json(response, { status });
-    }
 
     return NextResponse.json(response, { status });
   }

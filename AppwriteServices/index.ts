@@ -1,15 +1,15 @@
-import { Account, Client } from "appwrite";
-
-const client = new Client();
+import { Account, Client, Databases, ID, Permission, Role } from "appwrite";
 
 const AppwriteProject = process.env.APPWRITE_PROJECT_ID ?? "";
 const AppwriteEndpoint = process.env.APPWRITE_ENDPOINT ?? "";
 const SSRhostName = process.env.SSR_HOSTNAME ?? "";
 const AppwriteHostname = process.env.APPWRITE_HOSTNAME ?? "";
 
-client.setEndpoint(AppwriteEndpoint).setProject(AppwriteProject);
-
+const client = new Client();
 const account = new Account(client);
+const database = new Databases(client);
+
+client.setEndpoint(AppwriteEndpoint).setProject(AppwriteProject);
 
 /**
  * Create Magic URL session (confirmation)
@@ -72,8 +72,12 @@ export {
   AppwriteEndpoint,
   AppwriteHostname,
   AppwriteProject,
+  ID,
+  Permission,
+  Role,
   SSRhostName,
   account,
   client,
+  database,
   updateMagicURLSession,
 };

@@ -10,7 +10,7 @@ const SessionHandle: FC = async () => {
 
     if (currentUser) {
       const { default: LoggedInUI } = await import("./LoggedInUI");
-      HandleUI = <LoggedInUI />;
+      HandleUI = <LoggedInUI currentUser={currentUser} />;
     } else {
       const { default: NotLoggedInUI } = await import("./NotLoggedInUI");
       HandleUI = <NotLoggedInUI />;

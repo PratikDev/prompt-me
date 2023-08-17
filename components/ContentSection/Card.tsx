@@ -7,26 +7,30 @@ export const Card = function ({
   user,
   tags,
   postedAt,
+  createdBy,
 }: {
   prompt: string;
   user: string;
   postedAt: string;
   tags: string[];
+  createdBy: string;
 }) {
   return (
     <div className="w-full mb-3 mx-auto border p-3 rounded-md break-inside-avoid shadow-sm">
       <div className="flex space-x-4">
-        <Image
-          className={`w-12 h-12 rounded-full`}
-          src={`https://picsum.photos/200`}
-          width={50}
-          height={50}
-          alt={user}
-        />
+        <Link href={`/user/${createdBy}`}>
+          <Image
+            className={`w-12 h-12 rounded-full`}
+            src={`https://picsum.photos/200`}
+            width={50}
+            height={50}
+            alt={user}
+          />
+        </Link>
 
-        <div className="space-y-1">
-          <Link href={`/`}>
-            <h4 className="text-sm font-semibold">@{user}</h4>
+        <div className="space-y-1 flex-1">
+          <Link href={`/user/${createdBy}`}>
+            <h4 className="text-sm font-semibold break-all">@{user}</h4>
           </Link>
 
           <p className="text-sm text-slate-800 dark:text-slate-400">{prompt}</p>

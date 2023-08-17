@@ -3,7 +3,7 @@
 import BackIcon from "@/icons/helpers/BackIcon";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 const BackButton: FC = () => {
   const router = useRouter();

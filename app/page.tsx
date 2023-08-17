@@ -1,6 +1,5 @@
-import { Card } from "@/components/Card";
+import ContentSection from "@/components/ContentSection";
 import { Input } from "@/components/ui/input";
-import { postedAt, prompt, tags, username } from "@/test-data/faker-data";
 
 export default function Home() {
   return (
@@ -25,17 +24,7 @@ export default function Home() {
           placeholder="Search for any prompt or tag..."
         />
 
-        <section style={{ columnWidth: 320 }} className={`columns-4 gap-x-3`}>
-          {Array.from({ length: 20 }).map((_, index) => (
-            <Card
-              key={index}
-              user={username()}
-              prompt={prompt()}
-              tags={tags()}
-              postedAt={postedAt()}
-            />
-          ))}
-        </section>
+        <ContentSection />
       </div>
     </>
   );

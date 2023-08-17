@@ -1,41 +1,21 @@
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import PlusIcon from "@/icons/PlusIcon";
+import { Models } from "appwrite";
 import { FC } from "react";
-import CreatePostForm from "./CreatePostForm";
+import CreatePostDialogComponent from "./CreatePostDialogComponent";
 import ProfileHandle from "./ProfileHandle";
 
-const LoggedInUI: FC = () => {
+interface LoggedInUIProps {
+  currentUser: Models.User<Models.Preferences>;
+}
+const LoggedInUI: FC<LoggedInUIProps> = async ({ currentUser }) => {
   return (
     <>
       <ProfileHandle />
 
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant={`secondary`} size={`icon`} className="border">
-            <PlusIcon className="w-5 xs:w-6 h-5 xs:h-6" />
-          </Button>
-        </DialogTrigger>
-
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Post a Prompt</DialogTitle>
-
-            <DialogDescription>
-              Write a prompt that you found helpful. Add upto 5 tags
-            </DialogDescription>
-          </DialogHeader>
-
-          <CreatePostForm />
-        </DialogContent>
-      </Dialog>
+      <CreatePostDialogComponent
+        userId={currentUser.$id}
+        userEmail={currentUser.email}
+        userName={currentUser.name}
+      />
     </>
   );
 };
