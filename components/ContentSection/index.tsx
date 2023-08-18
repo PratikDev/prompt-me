@@ -1,12 +1,19 @@
 import { FC } from "react";
 import { Card } from "./Card";
 
-const ContentSection: FC = async () => {
+const ContentSection: FC<{ createdBy?: string }> = async ({ createdBy }) => {
+  const { Query } = await import("appwrite");
   const { database } = await import("@/AppwriteServices");
   const { Database_ID, Prompt_Collection_ID } = await import(
     "@/AppwriteServices/IDs"
   );
-  const posts = await database.listDocuments(Database_ID, Prompt_Collection_ID);
+
+  const query = createdBy ? [Query.equal("createdBy", createdBy)] : undefined;
+  const posts = await database.listDocuments(
+    Database_ID,
+    Prompt_Collection_ID,
+    query
+  );
 
   return (
     <>

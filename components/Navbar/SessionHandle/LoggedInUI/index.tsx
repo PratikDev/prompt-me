@@ -9,7 +9,7 @@ interface LoggedInUIProps {
 const LoggedInUI: FC<LoggedInUIProps> = async ({ currentUser }) => {
   return (
     <>
-      <ProfileHandle />
+      <ProfileHandle currentUser={currentUser} />
 
       <CreatePostDialogComponent
         userId={currentUser.$id}

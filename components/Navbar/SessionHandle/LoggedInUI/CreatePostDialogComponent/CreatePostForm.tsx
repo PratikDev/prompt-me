@@ -136,7 +136,7 @@ const CreatePostForm: FC<CreatePostFormProps> = ({
         onSubmit={(e) =>
           handleSubmit({ e, formRef, pending, userInfo, setPending, setOpen })
         }
-        className="grid gap-4 pt-2"
+        className="grid gap-5 pt-2"
       >
         <div className="grid w-full gap-1.5">
           <Label htmlFor="prompt">Your Prompt</Label>
@@ -159,6 +159,12 @@ const CreatePostForm: FC<CreatePostFormProps> = ({
             placeholder="life, history, career"
             className="col-span-3"
           />
+
+          <p className="text-xs text-muted-foreground">
+            Separate tags with commas. White spaces between two words will be{" "}
+            {` `}
+            <i>replaced_with_underscores</i>.
+          </p>
         </div>
 
         <DialogFooter>

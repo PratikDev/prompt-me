@@ -10,32 +10,15 @@ import {
 import Logout from "@/icons/profile-options/Logout";
 import MyPrompts from "@/icons/profile-options/MyPrompts";
 import Profile from "@/icons/profile-options/Profile";
+import { Models } from "appwrite";
 import Image from "next/image";
 import Link from "next/link";
 import { Dispatch, FC, SetStateAction, useState } from "react";
-
-const options = [
-  {
-    name: "My Prompts",
-    icon: <MyPrompts />,
-    href: `/me`,
-    event: () => {},
-  },
-  {
-    name: "Edit Profile",
-    icon: <Profile />,
-    href: ``,
-    event: () => {
-      alert("hi");
-    },
-  },
-];
 
 interface LogoutComponentProps {
   loggingOut: boolean;
   setLoggingOut: Dispatch<SetStateAction<boolean>>;
 }
-
 const LogoutComponent: FC<LogoutComponentProps> = ({
   loggingOut,
   setLoggingOut,
@@ -57,12 +40,10 @@ const LogoutComponent: FC<LogoutComponentProps> = ({
       const json = await response.json();
       if (!response.ok) {
         toast.error(json.message);
-
         return;
       }
 
       toast.success(json.message);
-
       window.location.href = "/";
     } catch (error) {
       toast.error("Something went wrong. Please try again");
@@ -83,7 +64,22 @@ const LogoutComponent: FC<LogoutComponentProps> = ({
   );
 };
 
-const ProfileHandle: FC = () => {
+const options = [
+  {
+    icon: <MyPrompts />,
+    text: "My Prompts",
+    link: (userId: string) => `/user/${userId}`,
+  },
+  {
+    icon: <Profile />,
+    text: "Edit Profile",
+    link: () => `/edit-profile`,
+  },
+];
+
+const ProfileHandle: FC<{ currentUser: Models.User<Models.Preferences> }> = ({
+  currentUser,
+}) => {
   const [loggingOut, setLoggingOut] = useState(false);
 
   return (
@@ -103,17 +99,17 @@ const ProfileHandle: FC = () => {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align="end">
-          {options.map(({ name, icon, href, event }, index) => (
-            <DropdownMenuItem
+          {options.map(({ text, link, icon }, index) => (
+            <Link
               key={index}
-              className="cursor-pointer"
-              onClick={event}
+              href={link(currentUser.$id)}
+              className="flex items-center w-full"
             >
-              <Link href={href} className="flex items-center">
+              <DropdownMenuItem className="cursor-pointer w-full">
                 {icon}
-                <span>{name}</span>
-              </Link>
-            </DropdownMenuItem>
+                <span>{text}</span>
+              </DropdownMenuItem>
+            </Link>
           ))}
 
           <LogoutComponent
