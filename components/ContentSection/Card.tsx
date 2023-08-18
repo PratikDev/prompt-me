@@ -1,6 +1,6 @@
 import { badgeVariants } from "@/components/ui/badge";
-import Image from "next/image";
 import Link from "next/link";
+import { UserAvatar } from "../ui/avatar";
 
 export const Card = function ({
   prompt,
@@ -19,13 +19,7 @@ export const Card = function ({
     <div className="w-full mb-3 mx-auto border p-3 rounded-md break-inside-avoid shadow-sm">
       <div className="flex space-x-4">
         <Link href={`/user/${createdBy}`}>
-          <Image
-            className={`w-12 h-12 rounded-full`}
-            src={`https://picsum.photos/200`}
-            width={50}
-            height={50}
-            alt={user}
-          />
+          <UserAvatar src={`https://picsum.photos/200`} fallBack="US" />
         </Link>
 
         <div className="space-y-1 flex-1">

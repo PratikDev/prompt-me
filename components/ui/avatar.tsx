@@ -47,4 +47,16 @@ const AvatarFallback = React.forwardRef<
 ));
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
 
-export { Avatar, AvatarFallback, AvatarImage };
+interface UserImageProps {
+  className?: string;
+  src: string | undefined;
+  fallBack: string;
+}
+const UserAvatar: React.FC<UserImageProps> = ({ className, src, fallBack }) => (
+  <Avatar className={cn(className, "transition border")}>
+    <AvatarImage src={src} />
+    <AvatarFallback>{fallBack}</AvatarFallback>
+  </Avatar>
+);
+
+export { Avatar, AvatarFallback, AvatarImage, UserAvatar };

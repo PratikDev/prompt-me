@@ -1,5 +1,6 @@
 "use client";
 
+import { UserAvatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,7 +12,6 @@ import Logout from "@/icons/profile-options/Logout";
 import MyPrompts from "@/icons/profile-options/MyPrompts";
 import Profile from "@/icons/profile-options/Profile";
 import { Models } from "appwrite";
-import Image from "next/image";
 import Link from "next/link";
 import { Dispatch, FC, SetStateAction, useState } from "react";
 
@@ -87,14 +87,7 @@ const ProfileHandle: FC<{ currentUser: Models.User<Models.Preferences> }> = ({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="secondary" className="p-0 h-auto rounded-full">
-            <Image
-              src={`https://picsum.photos/200`}
-              alt="logged in user"
-              width={40}
-              height={40}
-              className="border w-9 xs:w-10 h-9 xs:h-10 rounded-full bg-gray-300"
-            />
-            <span className="sr-only">Profile Options</span>
+            <UserAvatar src={`https://picsum.photos/200`} fallBack="PD" />
           </Button>
         </DropdownMenuTrigger>
 

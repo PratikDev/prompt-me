@@ -1,6 +1,5 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,6 +14,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { UserAvatar } from "../ui/avatar";
 
 async function handleSubmit(e: FormEvent<HTMLFormElement>) {}
 
@@ -82,10 +82,11 @@ const Form: FC<{ user: Models.User<Models.Preferences> | null }> = ({
         >
           <PenIcon className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:z-10 transition" />
 
-          <Avatar className="w-48 h-48 group-hover:opacity-30 group-hover:pointer-events-none transition border">
-            <AvatarImage src={image} />
-            <AvatarFallback>USER</AvatarFallback>
-          </Avatar>
+          <UserAvatar
+            className="w-48 h-48 group-hover:opacity-30 group-hover:pointer-events-none transition border"
+            src={image}
+            fallBack="USER"
+          />
         </div>
 
         <input
