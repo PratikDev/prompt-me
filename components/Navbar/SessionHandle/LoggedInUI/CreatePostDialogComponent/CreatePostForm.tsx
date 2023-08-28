@@ -40,18 +40,21 @@ const validation = async ({
     .split(",")
     .map((tag: string) => tag.trim().replaceAll(" ", "_"));
 
-  const formData = { prompt, tags, createdBy, userName };
-
   const { createPost } = await import("@/schema/schema");
-  const result = createPost.safeParse(formData);
+  const schemaResponse = createPost.safeParse({
+    prompt,
+    tags,
+    createdBy,
+    userName,
+  });
 
-  const { toast } = await import("react-hot-toast");
-  if (!result.success) {
-    toast.error(result.error.issues[0].message);
+  if (!schemaResponse.success) {
+    const { toast } = await import("react-hot-toast");
+    toast.error(schemaResponse.error.issues[0].message);
     return false;
   }
 
-  return formData;
+  return schemaResponse.data;
 };
 
 interface handleSubmitProps {
@@ -161,8 +164,7 @@ const CreatePostForm: FC<CreatePostFormProps> = ({
           />
 
           <p className="text-xs text-muted-foreground">
-            Separate tags with commas. White spaces between two words will be{" "}
-            {` `}
+            Separate tags with commas. White spaces between words will be {` `}
             <i>replaced_with_underscores</i>.
           </p>
         </div>

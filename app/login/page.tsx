@@ -36,26 +36,28 @@ const handleSubmit = async ({
   const formData = { email };
 
   const { loginSchema } = await import("@/schema/schema");
-  const result = loginSchema.safeParse(formData);
+  const schemaResponse = loginSchema.safeParse(formData);
 
   const { toast } = await import("react-hot-toast");
-  if (!result.success) {
-    toast.error(result.error.issues[0].message);
+  if (!schemaResponse.success) {
+    toast.error(schemaResponse.error.issues[0].message);
     return;
   }
+
+  const data = schemaResponse.data;
 
   setPending(true);
   try {
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(data),
     });
 
-    const data = await res.json();
+    const response = await res.json();
 
     if (!res.ok) {
-      toast.error(data.message);
+      toast.error(response.message);
       return;
     }
 
@@ -64,7 +66,7 @@ const handleSubmit = async ({
         <p className="text-sm">
           A login link has been sent to{" "}
           <Link href={`https://gmail.com`} className="text-blue-700 underline">
-            {formData.email}
+            {data.email}
           </Link>
         </p>
       </div>
