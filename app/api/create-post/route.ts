@@ -14,9 +14,8 @@ export async function POST(request: Request) {
 
     const data = schemaParseResponse.data;
 
-    const { database, ID, Permission, Role } = await import(
-      "@/AppwriteServices"
-    );
+    const { ID, Permission, Role } = await import("appwrite");
+    const { database } = await import("@/AppwriteServices");
     const { Database_ID, Prompt_Collection_ID } = await import(
       "@/AppwriteServices/IDs"
     );

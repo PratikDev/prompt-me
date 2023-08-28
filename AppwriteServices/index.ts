@@ -1,13 +1,14 @@
-import { Account, Client, Databases, ID, Permission, Role } from "appwrite";
+import { Account, Client, Databases, Storage } from "appwrite";
 
-const AppwriteProject = process.env.APPWRITE_PROJECT_ID ?? "";
-const AppwriteEndpoint = process.env.APPWRITE_ENDPOINT ?? "";
-const SSRhostName = process.env.SSR_HOSTNAME ?? "";
-const AppwriteHostname = process.env.APPWRITE_HOSTNAME ?? "";
+const AppwriteProject = process.env.APPWRITE_PROJECT_ID;
+const AppwriteEndpoint = process.env.APPWRITE_ENDPOINT;
+const SSRhostName = process.env.SSR_HOSTNAME;
+const AppwriteHostname = process.env.APPWRITE_HOSTNAME;
 
 const client = new Client();
 const account = new Account(client);
 const database = new Databases(client);
+const storage = new Storage(client);
 
 client.setEndpoint(AppwriteEndpoint).setProject(AppwriteProject);
 
@@ -72,12 +73,10 @@ export {
   AppwriteEndpoint,
   AppwriteHostname,
   AppwriteProject,
-  ID,
-  Permission,
-  Role,
   SSRhostName,
   account,
   client,
   database,
+  storage,
   updateMagicURLSession,
 };
