@@ -29,9 +29,7 @@ async function getCurrentUser() {
 
     client.headers["X-Fallback-Cookies"] = JSON.stringify(authCookies);
 
-    const user = await account.get();
-
-    if (user) return user;
+    return await account.get();
   } catch (e) {
     // if (e instanceof AppwriteException) {
     //   throw e;
