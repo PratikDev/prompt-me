@@ -1,12 +1,9 @@
+import { evnVariables } from "@/schema/schema";
+import { z } from "zod";
+
 declare global {
   namespace NodeJS {
-    interface ProcessEnv {
-      APPWRITE_ENDPOINT: string;
-      APPWRITE_PROJECT_ID: string;
-      APPWRITE_HOSTNAME: string;
-      SSR_HOSTNAME: string;
-      SSR_URL: string;
-    }
+    interface ProcessEnv extends z.infer<typeof evnVariables> {}
   }
 }
 

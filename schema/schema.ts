@@ -1,8 +1,30 @@
 import { z } from "zod";
 
+const evnVariables = z.object({
+  APPWRITE_ENDPOINT: z.string(),
+  APPWRITE_PROJECT_ID: z.string(),
+  APPWRITE_HOSTNAME: z.string(),
+  SSR_HOSTNAME: z.string(),
+  SSR_URL: z.string(),
+});
+
 const loginSchema = z.object({
   email: z.string().email(),
 });
+
+// schema for username checking if only alphanumeric
+const usernameSchema = z
+  .string()
+  .min(1, { message: "Username must have at least one character" })
+  .max(25, { message: "Username can have upto 25 characters" })
+  .regex(/^[a-zA-Z0-9]+$/, {
+    message: "Username can only have alphanumeric characters",
+  });
+
+const userIdSchema = z
+  .string()
+  .min(10, { message: "Invalid user" })
+  .max(36, { message: "Invalid user" });
 
 const createPost = z.object({
   prompt: z
@@ -20,14 +42,13 @@ const createPost = z.object({
     )
     .nonempty({ message: "You must have at least 1 tag" })
     .max(5, { message: "You can only have 5 tags" }),
-  createdBy: z
-    .string()
-    .min(10, { message: "Invalid user" })
-    .max(36, { message: "Invalid user" }),
-  userName: z
-    .string()
-    .min(1, { message: "Invalid username" })
-    .max(25, { message: "Invalid username" }),
+  createdBy: userIdSchema,
+  userName: usernameSchema,
 });
 
-export { createPost, loginSchema };
+const editProfile = z.object({
+  userName: usernameSchema,
+  userId: userIdSchema,
+});
+
+export { createPost, editProfile, evnVariables, loginSchema };
