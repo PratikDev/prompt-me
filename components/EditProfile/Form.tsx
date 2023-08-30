@@ -10,13 +10,118 @@ import {
   Dispatch,
   FC,
   FormEvent,
+  RefObject,
   SetStateAction,
   useRef,
   useState,
 } from "react";
 import { UserAvatar } from "../ui/avatar";
 
-async function handleSubmit(e: FormEvent<HTMLFormElement>) {}
+async function uploadAvatar(
+  file: File,
+  userId: string,
+  prefAvatarLinkAvailable: boolean
+) {
+  const { toast } = await import("react-hot-toast");
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("userId", userId);
+    formData.append(
+      "prefAvatarLinkAvailable",
+      prefAvatarLinkAvailable.toString()
+    );
+
+    const options = {
+      method: "POST",
+      headers: {},
+      body: formData,
+    };
+    const res = await fetch("/api/upload-avatar", options);
+
+    if (!res.ok) {
+      const data = await res.json();
+      toast.error(data.message);
+      return;
+    }
+
+    toast.success("Avatar Updated Successfully");
+  } catch (error) {
+    toast.error("Something went wrong. Please try again later");
+  }
+}
+
+async function updateName(username: string) {
+  const { toast } = await import("react-hot-toast");
+
+  try {
+    const res = await fetch("/api/update-name", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json();
+      toast.error(data.message);
+      return;
+    }
+
+    toast.success("Name Updated Successfully");
+  } catch (error) {
+    toast.error("Something went wrong. Please try again later");
+  }
+}
+
+async function handleSubmit({
+  e,
+  formRef,
+  userId,
+  prefAvatarLinkAvailable,
+  setPending,
+}: {
+  e: FormEvent<HTMLFormElement>;
+  formRef: RefObject<HTMLFormElement>;
+  userId: string;
+  prefAvatarLinkAvailable: boolean;
+  setPending: Dispatch<SetStateAction<boolean>>;
+}) {
+  e.preventDefault();
+
+  const userName: string | null = formRef.current?.username?.value;
+
+  const parsableObject = {
+    userName,
+    userId,
+  };
+
+  const { editProfile } = await import("@/schema/schema");
+  const schemaResponse = editProfile.safeParse(parsableObject);
+
+  if (!schemaResponse.success) {
+    const { toast } = await import("react-hot-toast");
+    const message = schemaResponse.error.issues[0].message;
+    toast.error(message);
+    return;
+  }
+
+  setPending(true);
+  try {
+    const { userName, userId } = schemaResponse.data;
+    await Promise.all([
+      uploadAvatar(
+        formRef.current?.image?.files?.[0] as File,
+        userId,
+        prefAvatarLinkAvailable
+      ),
+      updateName(userName),
+    ]);
+  } finally {
+    setPending(false);
+  }
+}
 
 async function handleImageChange({
   e,
@@ -25,33 +130,27 @@ async function handleImageChange({
   e: FormEvent<HTMLInputElement>;
   setImage: Dispatch<SetStateAction<string | undefined>>;
 }) {
-  const file = e.currentTarget.files?.[0];
-
+  const file = e?.currentTarget?.files?.[0];
   if (!file) return;
 
-  const { toast } = await import("react-hot-toast");
-  if (file.size > 1024 * 1024 * 5) {
-    toast.error("Image must be less than 5MB");
-    return;
-  }
-
-  const acceptedFormats = ["image/png", "image/jpeg", "image/jpg"];
-  if (!acceptedFormats.includes(file.type)) {
-    toast.error("Image must be a PNG, JPG or JPEG");
+  const { isImageValid } = await import("@/lib/isImageValid");
+  const imageValidityCheck = isImageValid(file);
+  if (!imageValidityCheck.success) {
+    const { toast } = await import("react-hot-toast");
+    toast.error(imageValidityCheck.message);
     return;
   }
 
   const reader = new FileReader();
-  reader.readAsDataURL(file);
+  reader.readAsDataURL(imageValidityCheck.file);
 
   reader.onloadend = () => {
     setImage(reader.result?.toString());
   };
 }
 
-const Form: FC<{ user: Models.User<Models.Preferences> | null }> = ({
-  user,
-}) => {
+const Form: FC<{ user: Models.User<Models.Preferences> }> = ({ user }) => {
+  // TODO: Handle this in middleware
   if (!user) {
     window.location.href = "/login";
     return null;
@@ -59,9 +158,11 @@ const Form: FC<{ user: Models.User<Models.Preferences> | null }> = ({
 
   const userImage: string | undefined = user.prefs.avatar;
   const userName = user.name || user.email.split("@")[0].substring(0, 25);
+  const userId = user.$id;
 
   const [pending, setPending] = useState(false);
   const [image, setImage] = useState<string | undefined>(userImage);
+
   const formRef = useRef<HTMLFormElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
@@ -69,7 +170,15 @@ const Form: FC<{ user: Models.User<Models.Preferences> | null }> = ({
     <>
       <form
         ref={formRef}
-        onSubmit={handleSubmit}
+        onSubmit={(e) =>
+          handleSubmit({
+            e,
+            formRef,
+            userId,
+            prefAvatarLinkAvailable: !!userImage,
+            setPending,
+          })
+        }
         className="max-w-sm flex flex-col items-center gap-3 mx-auto pt-32"
       >
         <div
@@ -92,6 +201,8 @@ const Form: FC<{ user: Models.User<Models.Preferences> | null }> = ({
         <input
           ref={imageInputRef}
           onChange={(e) => handleImageChange({ e, setImage })}
+          id="image"
+          name="image"
           type="file"
           accept="image/png, image/jpeg, image/jpg"
           className="sr-only hidden"
