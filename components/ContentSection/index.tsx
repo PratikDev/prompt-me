@@ -9,16 +9,22 @@ const ContentSection: FC<{ createdBy?: string }> = async ({ createdBy }) => {
   );
 
   const query = createdBy ? [Query.equal("createdBy", createdBy)] : undefined;
-  const posts = await database.listDocuments(
-    Database_ID,
-    Prompt_Collection_ID,
-    query
-  );
+
+  let posts = null;
+  try {
+    posts = await database.listDocuments(
+      Database_ID,
+      Prompt_Collection_ID,
+      query
+    );
+  } catch (error) {
+    console.log(error);
+  }
 
   return (
     <>
       <section style={{ columnWidth: 320 }} className={`columns-4 gap-x-3`}>
-        {posts.documents.map(
+        {posts?.documents?.map(
           ({ userName, prompt, tags, createdBy, $createdAt }, index) => {
             const postedAt = new Date($createdAt).toDateString();
             return (
