@@ -15,13 +15,17 @@ async function validateLink({
   secret: string;
 }) {
   try {
-    const {
-      updateMagicURLSession,
-      SSRhostName: SHN,
-      AppwriteHostname: AHN,
-    } = await import("@/AppwriteServices");
+    const { AppwriteServices } = await import("@/AppwriteServices");
+    const { SSRhostName: SHN, AppwriteHostname: AHN } = await import(
+      "@/AppwriteServices/config"
+    );
 
-    const response = await updateMagicURLSession({ userId, secret });
+    const appwriteServices = new AppwriteServices();
+
+    const response = await appwriteServices.updateMagicURLSession({
+      userId,
+      secret,
+    });
 
     const SSRhostName = SHN === "localhost" ? SHN : `.${SHN}`;
 

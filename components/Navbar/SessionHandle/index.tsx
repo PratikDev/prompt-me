@@ -4,8 +4,9 @@ const SessionHandle: FC = async () => {
   let HandleUI = <></>;
 
   try {
-    const { getCurrentUser } = await import("@/AppwriteServices/server");
-    const currentUser = await getCurrentUser();
+    const { AppwriteServices } = await import("@/AppwriteServices");
+    const appwriteServices = new AppwriteServices();
+    const currentUser = await appwriteServices.getCurrentUser();
     // const currentUser = true;
 
     if (currentUser) {
@@ -15,7 +16,9 @@ const SessionHandle: FC = async () => {
       const { default: NotLoggedInUI } = await import("./NotLoggedInUI");
       HandleUI = <NotLoggedInUI />;
     }
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
 
   return HandleUI;
 };
