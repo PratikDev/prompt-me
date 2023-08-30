@@ -27,10 +27,15 @@ export const Card = function ({
             <h4 className="text-sm font-semibold break-all">@{user}</h4>
           </Link>
 
-          <p className="text-sm text-slate-800 dark:text-slate-400">{prompt}</p>
+          <p
+            style={{ overflowWrap: "anywhere" }}
+            className="whitespace-break-spaces text-sm text-slate-800 dark:text-slate-400"
+          >
+            {prompt}
+          </p>
 
           <div className="flex items-center pt-2">
-            <span className="text-xs text-muted-foreground">
+            <span className="text-xs text-muted-foreground dark:text-gray-600">
               Posted {postedAt}
             </span>
           </div>
