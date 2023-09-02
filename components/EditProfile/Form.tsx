@@ -34,7 +34,6 @@ async function uploadAvatar(
 
     const options = {
       method: "POST",
-      headers: {},
       body: formData,
     };
     const res = await fetch("/api/upload-avatar", options);
@@ -79,21 +78,23 @@ async function handleSubmit({
   e,
   formRef,
   userId,
+  currentName,
   prefAvatarLinkAvailable,
   setPending,
 }: {
   e: FormEvent<HTMLFormElement>;
   formRef: RefObject<HTMLFormElement>;
   userId: string;
+  currentName: string;
   prefAvatarLinkAvailable: boolean;
   setPending: Dispatch<SetStateAction<boolean>>;
 }) {
   e.preventDefault();
 
-  const userName: string | null = formRef.current?.username?.value;
+  const newUserName: string | null = formRef.current?.username?.value;
 
   const parsableObject = {
-    userName,
+    userName: newUserName,
     userId,
   };
 
@@ -107,17 +108,28 @@ async function handleSubmit({
     return;
   }
 
-  setPending(true);
+  /*
+    doing all this, just to avoid
+    unnecessary api calls and state changes
+  */
+  const { userName, userId: userId__data } = schemaResponse.data;
+  const promiseArray = [];
+
+  if (userName !== currentName) {
+    promiseArray.push(updateName(userName));
+  }
+
+  const file = formRef.current?.image?.files?.[0];
+  if (file) {
+    promiseArray.push(
+      uploadAvatar(file as File, userId__data, prefAvatarLinkAvailable)
+    );
+  }
+
+  if (!promiseArray.length) return;
   try {
-    const { userName, userId } = schemaResponse.data;
-    await Promise.all([
-      uploadAvatar(
-        formRef.current?.image?.files?.[0] as File,
-        userId,
-        prefAvatarLinkAvailable
-      ),
-      updateName(userName),
-    ]);
+    setPending(true);
+    await Promise.all(promiseArray);
   } finally {
     setPending(false);
   }
@@ -175,6 +187,7 @@ const Form: FC<{ user: Models.User<Models.Preferences> }> = ({ user }) => {
             e,
             formRef,
             userId,
+            currentName: userName,
             prefAvatarLinkAvailable: !!userImage,
             setPending,
           })
