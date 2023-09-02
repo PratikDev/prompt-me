@@ -23,6 +23,8 @@ async function uploadAvatar(
   prefAvatarLinkAvailable: boolean
 ) {
   const { toast } = await import("react-hot-toast");
+
+  /*
   try {
     const formData = new FormData();
     formData.append("file", file);
@@ -48,6 +50,9 @@ async function uploadAvatar(
   } catch (error) {
     toast.error("Something went wrong. Please try again later");
   }
+  */
+
+  toast.error("Avatar upload is disabled for now");
 }
 
 async function updateName(username: string) {
