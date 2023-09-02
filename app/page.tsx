@@ -1,5 +1,7 @@
 import ContentSection from "@/components/ContentSection";
+import ContentSectionSkeleton from "@/components/Skeletons/ContentSection";
 import { Input } from "@/components/ui/input";
+import { Suspense } from "react";
 
 export default function Home() {
   return (
@@ -24,7 +26,9 @@ export default function Home() {
           placeholder="Search for any prompt or tag..."
         />
 
-        <ContentSection />
+        <Suspense fallback={<ContentSectionSkeleton />}>
+          <ContentSection />
+        </Suspense>
       </div>
     </>
   );

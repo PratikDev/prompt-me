@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <NextTopLoader showSpinner={false} color="#6b7280" crawl />
+        <NextTopLoader showSpinner={false} color="#a855f7" crawl />
 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Navbar />

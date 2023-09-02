@@ -21,6 +21,15 @@ const ContentSection: FC<{ createdBy?: string }> = async ({ createdBy }) => {
     console.log(error);
   }
 
+  if (!posts?.documents?.length)
+    return (
+      <>
+        <h2 className="text-center dark:text-gray-700 text-gray-500 font-extralight text-xl">
+          So empty :( It's time for you to take the lead!
+        </h2>
+      </>
+    );
+
   return (
     <>
       <section style={{ columnWidth: 320 }} className={`columns-4 gap-x-3`}>
