@@ -17,8 +17,8 @@ const usernameSchema = z
   .string()
   .min(1, { message: "Username must have at least one character" })
   .max(25, { message: "Username can have upto 25 characters" })
-  .regex(/^[a-zA-Z0-9]+$/, {
-    message: "Username can only have alphanumeric characters",
+  .regex(/^[a-zA-Z0-9_]+$/, {
+    message: "Username: Letters, numbers, and underscores only.",
   });
 
 const userIdSchema = z
@@ -51,4 +51,11 @@ const editProfile = z.object({
   userId: userIdSchema,
 });
 
-export { createPost, editProfile, evnVariables, loginSchema };
+export {
+  createPost,
+  editProfile,
+  evnVariables,
+  loginSchema,
+  userIdSchema,
+  usernameSchema,
+};
