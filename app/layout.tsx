@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
+import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
@@ -17,6 +18,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
+        <NextTopLoader showSpinner={false} color="#6b7280" crawl />
+
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Navbar />
 
