@@ -1,24 +1,16 @@
+import { Models } from "appwrite";
 import { FC } from "react";
 import { Card } from "./Card";
 
-const ContentSection: FC<{ createdBy?: string }> = async ({ createdBy }) => {
-  const { Query } = await import("appwrite");
-  const { database } = await import("@/AppwriteServices");
-  const { Database_ID, Prompt_Collection_ID } = await import(
-    "@/AppwriteServices/IDs"
-  );
-
-  const query = createdBy ? [Query.equal("createdBy", createdBy)] : undefined;
-
-  let posts = null;
-  try {
-    posts = await database.listDocuments(
-      Database_ID,
-      Prompt_Collection_ID,
-      query
+const ContentSection: FC<{
+  posts?: Models.DocumentList<Models.Document> | null;
+}> = async ({ posts }) => {
+  if (!posts) {
+    return (
+      <h2 className="text-2xl text-center text-gray-400 dark:text-gray-700 font-extralight">
+        Nothing to show. Time for you to take the space...
+      </h2>
     );
-  } catch (error) {
-    console.log(error);
   }
 
   return (
@@ -27,6 +19,7 @@ const ContentSection: FC<{ createdBy?: string }> = async ({ createdBy }) => {
         {posts?.documents?.map(
           ({ userName, prompt, tags, createdBy, $createdAt }, index) => {
             const postedAt = new Date($createdAt).toDateString();
+
             return (
               <Card
                 key={index}

@@ -6,6 +6,25 @@ const database = new Databases(client);
 const storage = new Storage(client);
 
 class AppwriteServices {
+  getDocuments = async ({
+    Collection_ID,
+    query,
+  }: {
+    Collection_ID: string;
+    query?: string[];
+  }) => {
+    const { Database_ID } = await import("@/AppwriteServices/IDs");
+
+    let posts = null;
+    try {
+      posts = await database.listDocuments(Database_ID, Collection_ID, query);
+    } catch (error) {
+      console.log(error);
+    }
+
+    return posts;
+  };
+
   private async getCookieValue() {
     try {
       const { cookies } = await import("next/headers");
