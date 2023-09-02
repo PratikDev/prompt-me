@@ -8,6 +8,11 @@ export function isImageValid(file: File) {
     file: file as File,
   };
 
+  if (!(file instanceof File)) {
+    response.message = "Please Upload a valid Image";
+    return response;
+  }
+
   if (file.size > MAX_FILE_SIZE) {
     response.message = "Max file size is 5MB";
     return response;
