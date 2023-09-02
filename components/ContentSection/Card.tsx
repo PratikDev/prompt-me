@@ -17,7 +17,7 @@ export const Card = function ({
 }) {
   return (
     <div className="w-full mb-3 mx-auto border p-3 rounded-md break-inside-avoid shadow-sm">
-      <div className="flex space-x-4">
+      <div className="flex items-start space-x-4">
         <Link href={`/user/${createdBy}`}>
           <UserAvatar src={`https://picsum.photos/200`} fallBack="US" />
         </Link>

@@ -1,20 +1,21 @@
 import { z } from "zod";
 
 const evnVariables = z.object({
-  APPWRITE_ENDPOINT: z.string(),
-  APPWRITE_PROJECT_ID: z.string(),
-  APPWRITE_HOSTNAME: z.string(),
-  SSR_HOSTNAME: z.string(),
-  SSR_URL: z.string(),
+  APPWRITE_ENDPOINT: z.string().trim(),
+  APPWRITE_PROJECT_ID: z.string().trim(),
+  APPWRITE_HOSTNAME: z.string().trim(),
+  SSR_HOSTNAME: z.string().trim(),
+  SSR_URL: z.string().trim(),
 });
 
 const loginSchema = z.object({
-  email: z.string().email(),
+  email: z.string().trim().email(),
 });
 
 // schema for username checking if only alphanumeric
 const usernameSchema = z
   .string()
+  .trim()
   .min(1, { message: "Username must have at least one character" })
   .max(25, { message: "Username can have upto 25 characters" })
   .regex(/^[a-zA-Z0-9_]+$/, {
@@ -23,6 +24,7 @@ const usernameSchema = z
 
 const userIdSchema = z
   .string()
+  .trim()
   .min(10, { message: "Invalid user" })
   .max(36, { message: "Invalid user" });
 
@@ -31,12 +33,14 @@ const createPost = z.object({
     .string({
       required_error: "Prompt is required",
     })
+    .trim()
     .min(10, { message: "Prompt must be at least 10 characters long" })
     .max(1000, { message: "Prompt can be upto 500 characters long" }),
   tags: z
     .array(
       z
         .string()
+        .trim()
         .min(2, { message: "Each tag must be at least 2 characters long" })
         .max(20, { message: "Each tag can be upto than 20 characters long" })
     )

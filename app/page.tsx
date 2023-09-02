@@ -1,17 +1,9 @@
-import { AppwriteServices } from "@/AppwriteServices";
-import { Prompt_Collection_ID } from "@/AppwriteServices/IDs";
 import ContentSection from "@/components/ContentSection";
+import ContentSectionSkeleton from "@/components/Skeletons/ContentSection";
 import { Input } from "@/components/ui/input";
+import { Suspense } from "react";
 
-// https://github.com/adrianhajdin/project_next_13_ai_prompt_sharing/blob/main/components/Feed.jsx
-
-const appwriteServices = new AppwriteServices();
-
-export default async function Home() {
-  const posts = await appwriteServices.getDocuments({
-    Collection_ID: Prompt_Collection_ID,
-  });
-
+export default function Home() {
   return (
     <>
       <div className="flex flex-col items-center gap-8 xs:gap-16">
@@ -34,7 +26,9 @@ export default async function Home() {
           placeholder="Search for any prompt or tag..."
         />
 
-        <ContentSection posts={posts} />
+        <Suspense fallback={<ContentSectionSkeleton />}>
+          <ContentSection />
+        </Suspense>
       </div>
     </>
   );
