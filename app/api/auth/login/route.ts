@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 
-const EMAIL_CONFIRMATION_ENDPOINT =
-  "http://localhost:3000/api/auth/emailConfirmation";
+const EMAIL_CONFIRMATION_ENDPOINT = `${process.env.SSR_URL}/api/auth/emailConfirmation`;
 
 async function sendEmail(email: string) {
   try {
