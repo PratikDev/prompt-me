@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import LoadingIcon from "@/icons/helpers/LoadingIcon";
 import PenIcon from "@/icons/helpers/PenIcon";
 import { Models } from "appwrite";
+import { redirect } from "next/navigation";
 import {
   Dispatch,
   FC,
@@ -169,8 +170,7 @@ async function handleImageChange({
 const Form: FC<{ user: Models.User<Models.Preferences> }> = ({ user }) => {
   // TODO: Handle this in middleware
   if (!user) {
-    window.location.href = "/login";
-    return null;
+    redirect("/login");
   }
 
   const userImage: string | undefined = user.prefs.avatar;
